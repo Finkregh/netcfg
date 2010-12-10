@@ -16,9 +16,20 @@ load_profile()
     report_debug "Loading profile $1"
     INTERFACE=$(. "$PROFILE_DIR/$1"; echo "$INTERFACE")
     report_debug "Configuring interface $INTERFACE"
-    if [[ -z "$INTERFACE" ]]; then
-        report_err "Profile missing an interface to configure"
-        return 1
+    if [[ ! $CONNECTION == "ethernet-iproute-vlan" ]] ; then
+        if [[ -z "$INTERFACE" ]]; then
+            report_err "Profile missing an interface to configure"
+            return 1
+        fi
+    else
+        if [[ -z "$PHYS_INTERFACE" ]]; then
+            report_err "Profile missing an physical interface to configure"
+            return 1
+        fi
+        if [[ -z "$VLAN" ]]; then
+            report_err "Profile missing an VLAN to configure"
+            return 1
+        fi
     fi
     if [[ -f "$IFACE_DIR/$INTERFACE" ]]; then
         report_debug "Interface level configuration enabled: $IFACE_DIR/$INTERFACE"

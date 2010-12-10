@@ -1,0 +1,10 @@
+CONNECTION="ethernet-iproute-vlan"
+DESCRIPTION="A more versatile static ethernet connection using iproute and VLAN"
+PHYS_INTERFACE="eth0"
+VLAN="7"
+FLAG="false"
+IP="static"
+# Any valid iproute command can be placed in this array
+IPCFG=("addr add dev eth0.7 192.168.1.23/24 brd +" \
+        "route replace default via 192.168.1.1")
+DNS=("192.168.1.1")
